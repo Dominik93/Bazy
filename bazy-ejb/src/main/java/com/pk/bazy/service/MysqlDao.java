@@ -11,6 +11,9 @@ import java.util.List;
 import org.jboss.logging.Logger;
 import org.jboss.logging.Logger.Level;
 
+import com.pk.bazy.model.Follower;
+import com.pk.bazy.model.Friend;
+import com.pk.bazy.model.Tweet;
 import com.pk.bazy.model.User;
 
 public class MysqlDao implements Dao {
@@ -119,6 +122,48 @@ public class MysqlDao implements Dao {
 	@Override
 	public String toString() {
 		return "MySQL";
+	}
+
+	@Override
+	public List<Tweet> getTweets(User user) {
+		List<Tweet> tweets = new ArrayList<>();
+	    try {
+	    	ResultSet rs = executeQuery("SELECT tweet_id, username, body FROM tweets WHERE username LIKE '" + user.getUsername() + "';", true);    
+	        while(rs.next()) {
+	        	tweets.add(new Tweet(rs.getInt("tweet_id"), rs.getString("username"), rs.getString("body")));
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return tweets;
+	}
+
+	@Override
+	public List<Follower> getFollowers(User user) {
+		List<Follower> followers = new ArrayList<>();
+	    try {
+	    	ResultSet rs = executeQuery("SELECT username, since FROM followers;", true);    
+	        while(rs.next()) {
+	        	followers.add(new Follower(rs.getString("username"), rs.getTimestamp("since")));
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followers;
+	}
+
+	@Override
+	public List<Friend> getFreinds(User user) {
+		List<Friend> friends = new ArrayList<>();
+	    try {
+	    	ResultSet rs = executeQuery("SELECT username, since FROM friends;", true);    
+	        while(rs.next()) {
+	        	friends.add(new Friend(rs.getString("username"), rs.getTimestamp("since")));
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return friends;
 	}
 	
 }

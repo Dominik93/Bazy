@@ -7,32 +7,24 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:f="http://java.sun.com/jsf/core">
 
 	<h:head>
-		<title><ui:insert name="header">Login</ui:insert></title>
+		<title>Tweets</title>
 	</h:head>
 	
-	<h:body>				
+	<h:body>			
 		<h:form id="global">
-			<p:dataTable var="user" value="#{usersView.users}">			 
-			    <p:column headerText="Login">
-			        <h:outputText value="#{user.username}" />
+		
+			<p:dataTable var="tweet" value="#{tweetsView.tweets}">			 
+			    <p:column headerText="ID">
+			        <h:outputText value="#{tweet.id}" />
 			    </p:column>
 			    
-			    <p:column headerText="Tweets per users">
-			    	<p:link outcome="tweets" value="Tweets">
-					    <f:param name="user" value="#{user.username}" />
-					</p:link>
+			    <p:column headerText="User">
+			        <h:outputText value="#{tweet.username}" />
 			    </p:column>
 			    
-			    <p:column headerText="Friends per users">
-			    	<p:link outcome="friends" value="Friends">
-					    <f:param name="user" value="#{user.username}" />
-					</p:link>
-			    </p:column>
-			    
-			    <p:column headerText="Followers per users">
-			    	<p:link outcome="followers" value="Followers">
-					    <f:param name="user" value="#{user.username}" />
-					</p:link>
+			    <p:column headerText="Body">
+			        <h:outputText value="#{tweet.body}" />
+			    	
 			    </p:column>
 			    
 			</p:dataTable>

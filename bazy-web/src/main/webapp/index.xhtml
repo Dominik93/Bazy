@@ -17,6 +17,7 @@ xmlns:f="http://java.sun.com/jsf/core">
 				<p:inputText id="login" value="#{loginView.login}" required="true" />
 				<p:outputLabel for="password" value="Password"/>
 				<p:password id="password" value="#{loginView.password}" rendered="true" />
+				<p:outputLabel value=""/>
 				<p:selectOneMenu id="country" value="#{loginView.database}" style="width:150px">
 	                <f:selectItem itemLabel="Select Database" itemValue="" noSelectionOption="true" />
 	                <f:selectItems value="#{loginView.databases}" />

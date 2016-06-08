@@ -22,12 +22,9 @@ public class UsersView {
 	
 	private List<User> users;
 	
-	
-	
 	@PostConstruct
 	public void init(){
 		users = session.getDao().getUsers();
-		
 	}
 
 	public List<User> getUsers() {
