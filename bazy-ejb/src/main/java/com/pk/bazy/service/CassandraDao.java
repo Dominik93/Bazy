@@ -50,6 +50,30 @@ public class CassandraDao implements Dao {
 		return null;
 	}
 
+	@Override
+	public int getNumberOfTweets(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfFollowers(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getNumberOfFollowed(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Follower> getFollowed(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

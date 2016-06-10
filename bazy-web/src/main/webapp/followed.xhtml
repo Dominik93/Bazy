@@ -12,7 +12,7 @@ xmlns:f="http://java.sun.com/jsf/core">
 	
 	<h:body>				
 		<h:form id="global">
-			<p:dataTable var="follower" value="#{followersView.followers}">			 
+			<p:dataTable var="follower" value="#{followedView.followers}">			 
 			    <p:column headerText="Login">
 			    	<p:link outcome="profile" value="#{follower.username}">
 						<f:param name="user" value="#{follower.username}" />

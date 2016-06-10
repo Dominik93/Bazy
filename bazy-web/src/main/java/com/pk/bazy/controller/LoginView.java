@@ -55,7 +55,7 @@ public class LoginView {
 		if (user.getUsername() != null) {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			try {
-				ec.redirect(ec.getRequestContextPath() + "/users.xhtml");
+				ec.redirect(ec.getRequestContextPath() + "/profile.xhtml");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

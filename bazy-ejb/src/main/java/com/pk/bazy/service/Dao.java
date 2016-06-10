@@ -15,7 +15,12 @@ public interface Dao {
 	List<User> getUsers();
 	List<Tweet> getTweets(User user);
 	List<Follower> getFollowers(User user);
+	List<Follower> getFollowed(User user);
 	List<Friend> getFreinds(User user);
+	
+	int getNumberOfTweets(User user);
+	int getNumberOfFollowers(User user);
+	int getNumberOfFollowed(User user);
 	
 	void generateRandomData();
 }

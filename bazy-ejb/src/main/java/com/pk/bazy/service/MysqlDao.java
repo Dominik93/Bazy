@@ -142,7 +142,21 @@ public class MysqlDao implements Dao {
 	public List<Follower> getFollowers(User user) {
 		List<Follower> followers = new ArrayList<>();
 	    try {
-	    	ResultSet rs = executeQuery("SELECT username, since FROM followers;", true);    
+	    	ResultSet rs = executeQuery("SELECT follower, since FROM followers where username LIKE '" + user.getUsername() + "';", true);    
+	        while(rs.next()) {
+	        	followers.add(new Follower(rs.getString("follower"), rs.getTimestamp("since")));
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followers;
+	}
+	
+	@Override
+	public List<Follower> getFollowed(User user) {
+		List<Follower> followers = new ArrayList<>();
+	    try {
+	    	ResultSet rs = executeQuery("SELECT username, since FROM followers where follower LIKE '" + user.getUsername() + "';", true);    
 	        while(rs.next()) {
 	        	followers.add(new Follower(rs.getString("username"), rs.getTimestamp("since")));
 	        }
@@ -151,12 +165,12 @@ public class MysqlDao implements Dao {
 	    }
 	    return followers;
 	}
-
+	
 	@Override
 	public List<Friend> getFreinds(User user) {
 		List<Friend> friends = new ArrayList<>();
 	    try {
-	    	ResultSet rs = executeQuery("SELECT username, since FROM friends;", true);    
+	    	ResultSet rs = executeQuery("SELECT username, since FROM friends where username LIKE '" + user.getUsername() + "';", true);    
 	        while(rs.next()) {
 	        	friends.add(new Friend(rs.getString("username"), rs.getTimestamp("since")));
 	        }
@@ -165,5 +179,46 @@ public class MysqlDao implements Dao {
 	    }
 	    return friends;
 	}
+
+	@Override
+	public int getNumberOfTweets(User user) {
+		int tweets = 0;
+	    try {
+	    	ResultSet rs = executeQuery("SELECT count(tweet_id) FROM tweets WHERE username LIKE '" + user.getUsername() + "';", true);    
+	        rs.next();
+	        tweets = rs.getInt(1);
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return tweets;
+	}
+
+	@Override
+	public int getNumberOfFollowers(User user) {
+		int followers = 0;
+	    try {
+	    	ResultSet rs = executeQuery("SELECT count(username) FROM followers WHERE username LIKE '" + user.getUsername() + "';", true);    
+	        rs.next();
+	        followers = rs.getInt(1);
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followers;
+	}
+
+	@Override
+	public int getNumberOfFollowed(User user) {
+		int followed = 0;
+	    try {
+	    	ResultSet rs = executeQuery("SELECT count(username) FROM followers WHERE follower LIKE '" + user.getUsername() + "';", true);    
+	        rs.next();
+	        followed = rs.getInt(1);
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followed;
+	}
+
+	
 	
 }

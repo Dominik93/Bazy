@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html 
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Profile</title>
+	</h:head>
+	<h:outputStylesheet library="css" name="screen.css"/>
+	<h:body>				
+		<h:form id="global">
+			<p:panelGrid columns="2" styleClass="topTable" >
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Username"/>
+					<p:outputLabel value="#{profileView.user.username}" /> 
+					
+					<p:outputLabel value="Tweets"/>
+					<p:outputLabel value="#{userSession.dao.getNumberOfTweets(profileView.user)}" />
+					
+					<p:outputLabel value="Followed"/>
+					<p:link outcome="followed" value="#{userSession.dao.getNumberOfFollowed(profileView.user)}">
+						<f:param name="user" value="#{profileView.user.username}" />
+					</p:link>
+					
+					<p:outputLabel value="Followers"/>
+					<p:link outcome="followers" value="#{userSession.dao.getNumberOfFollowers(profileView.user)}">
+						<f:param name="user" value="#{profileView.user.username}" />
+					</p:link>
+				</p:panelGrid>
+				<p:dataTable var="tweet" value="#{tweetsView.tweets}">			 
+					<p:column headerText="ID" width="40">
+						<h:outputText value="#{tweet.id}" />
+					</p:column>
+					    <p:column headerText="Body">
+					        <h:outputText value="#{tweet.body}" />
+					    </p:column>
+				</p:dataTable>
+			</p:panelGrid>
+		</h:form>
+	</h:body>
+</html>
