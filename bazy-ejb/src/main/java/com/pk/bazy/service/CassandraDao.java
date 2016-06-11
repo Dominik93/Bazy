@@ -1,5 +1,6 @@
 package com.pk.bazy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.logging.Logger;
@@ -51,8 +52,20 @@ public class CassandraDao implements Dao {
 
 	@Override
 	public List<User> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		List<User> users = new ArrayList<>();
+
+		try {
+			Statement stmt = new SimpleStatement("select username, password FROM users;");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				users.add(new User(row.getString("username"), row.getString("password")));
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return users;
 	}
 
 	@Override
@@ -68,44 +81,129 @@ public class CassandraDao implements Dao {
 
 	@Override
 	public List<Tweet> getTweets(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Tweet> tweets = new ArrayList<>();
+		try {
+			Statement stmt = new SimpleStatement(
+					"select tweet_id, username, body FROM tweets where username = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row rs : results) {
+				tweets.add(new Tweet(Math.abs(rs.getUUID("tweet_id").hashCode()), rs.getString("username"),
+						rs.getString("body")));
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return tweets;
 	}
 
 	@Override
 	public List<Follower> getFollowers(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Follower> followers = new ArrayList<>();
+		try {
+			Statement stmt = new SimpleStatement(
+					"select follower, since FROM followers where username = '" + user.getUsername() + "';");
 
-	@Override
-	public List<Friend> getFreinds(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				followers.add(new Follower(row.getString("follower"), row.getTimestamp("since")));
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
 
-	@Override
-	public int getNumberOfTweets(User user) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getNumberOfFollowers(User user) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getNumberOfFollowed(User user) {
-		// TODO Auto-generated method stub
-		return 0;
+		return followers;
 	}
 
 	@Override
 	public List<Follower> getFollowed(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Follower> followers = new ArrayList<>();
+		try {
+			Statement stmt = new SimpleStatement(
+					"select username, since FROM followers where follower = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				followers.add(new Follower(row.getString("follower"), row.getTimestamp("since")));
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return followers;
+	}
+
+	@Override
+	public List<Friend> getFreinds(User user) {
+		List<Friend> friends = new ArrayList<>();
+		try {
+			Statement stmt = new SimpleStatement(
+					"select username, since FROM friends where username = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				friends.add(new Friend(row.getString("username"), row.getTimestamp("since")));
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return friends;
+	}
+
+	@Override
+	public int getNumberOfTweets(User user) {
+		int tweets = 0;
+		try {
+			Statement stmt = new SimpleStatement(
+					"select count(tweet_id) FROM tweets where username = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				tweets = (int) row.getLong(0);
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return tweets;
+	}
+
+	@Override
+	public int getNumberOfFollowers(User user) {
+		int followers = 0;
+		try {
+			Statement stmt = new SimpleStatement(
+					"select count(username) FROM followers where username = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				followers = (int) row.getLong(0);
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return followers;
+	}
+
+	@Override
+	public int getNumberOfFollowed(User user) {
+		int followed = 0;
+		try {
+			Statement stmt = new SimpleStatement(
+					"select count(username) FROM followers where follower = '" + user.getUsername() + "';");
+
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				followed = (int) row.getLong(0);
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+
+		return followed;
 	}
 
 }
