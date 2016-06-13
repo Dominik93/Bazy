@@ -17,7 +17,7 @@ xmlns:f="http://java.sun.com/jsf/core">
 		<h:form id="global">
 			<p:dataTable var="friends" value="#{friendsView.friends}">			 
 			    <p:column headerText="Login">
-			    	<p:link outcome="profile" value="#friends.username}">
+			    	<p:link outcome="profile" value="#{friends.username}">
 						<f:param name="user" value="#{friends.username}" />
 					</p:link>
 			    </p:column>

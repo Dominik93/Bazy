@@ -20,7 +20,7 @@ public class Logout {
 		try {
 			ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 			ec.invalidateSession();
-			ec.redirect(ec.getRequestContextPath() + "/resources/pages/login.xhtml");
+			ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

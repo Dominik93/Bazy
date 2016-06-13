@@ -5,46 +5,46 @@
  */
 package com.pk.bazy.model;
 
-/**
- *
- * @author Dominik
- */
+/** @author Dominik */
 public class Tweet {
-    
-    private Integer id;
-    private String username;
-    private String body;
 
-    public Tweet(Integer id, String username, String body) {
-        this.id = id;
-        this.username = username;
-        this.body = body;
-    }   
-    
-    public Integer getId() {
-        return id;
-    }
+	private Integer id;
+	private String username;
+	private String body;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Tweet(String username) {
+		this.username = username;
+	}
+	
+	public Tweet(Integer id, String username, String body) {
+		this.id = id;
+		this.username = username;
+		this.body = body;
+	}
+	
 
-    public String getUsername() {
-        return username;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getBody() {
-        return body;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setBody(String body) {
-        this.body = body;
-    }
-    
-    
-    
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getBody() {
+		return body;
+	}
+
+	public void setBody(String body) {
+		this.body = body;
+	}
+
 }

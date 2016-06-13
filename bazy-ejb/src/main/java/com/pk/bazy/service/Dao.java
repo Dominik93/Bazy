@@ -25,7 +25,12 @@ public interface Dao {
 	int getNumberOfTweets(User user);
 	int getNumberOfFollowers(User user);
 	int getNumberOfFollowed(User user);
-	int getNumberOfFreinds(User user);
+	int getNumberOfFriends(User user);
 	
 	void generateRandomData();
+
+	void insertFriend(User user, User user2);
+	void insertFollower(User user, User user2);
+	void insertTweet(Tweet tweet);
+	
 }
