@@ -7,10 +7,16 @@ xmlns:ui="http://java.sun.com/jsf/facelets"
 xmlns:f="http://java.sun.com/jsf/core">
 
 	<h:head>
-		<title><ui:insert name="header">Login</ui:insert></title>
+		<title><ui:insert name="header">Followed</ui:insert></title>
 	</h:head>
 	
 	<h:body>				
+	
+		<f:metadata>
+			<f:event listener="#{userSession.logged()}" type="preRenderView"/>
+		</f:metadata>
+				
+	
 		<h:form id="global">
 			<p:dataTable var="follower" value="#{followedView.followers}">			 
 			    <p:column headerText="Login">

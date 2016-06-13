@@ -12,15 +12,25 @@ import com.pk.bazy.model.User;
 public interface Dao {
 
 	User login(String login, String password);
+	
 	List<User> getUsers();
 	List<Tweet> getTweets(User user);
 	List<Follower> getFollowers(User user);
 	List<Follower> getFollowed(User user);
-	List<Friend> getFreinds(User user);
+	List<Friend> getFriends(User user);
+	
+	List<Friend> getFriendsWithTweets(User user);
+	List<Follower> getFollowersWithTweets(User user);
 	
 	int getNumberOfTweets(User user);
 	int getNumberOfFollowers(User user);
 	int getNumberOfFollowed(User user);
+	int getNumberOfFriends(User user);
 	
 	void generateRandomData();
+
+	void insertFriend(User user, User user2);
+	void insertFollower(User user, User user2);
+	void insertTweet(Tweet tweet);
+	
 }

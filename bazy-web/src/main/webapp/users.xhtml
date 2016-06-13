@@ -10,7 +10,10 @@ xmlns:f="http://java.sun.com/jsf/core">
 		<title>Users</title>
 	</h:head>
 	
-	<h:body>				
+	<h:body>	
+		<f:metadata>
+			<f:event listener="#{userSession.logged()}" type="preRenderView"/>
+		</f:metadata>			
 		<h:form id="global">
 			<p:dataTable var="user" value="#{usersView.users}">			 
 			    <p:column headerText="Login">

@@ -5,6 +5,8 @@
  */
 package com.pk.bazy.model;
 
+import java.util.List;
+
 /**
  *
  * @author Dominik
@@ -13,6 +15,7 @@ public class User {
 	
     private String username;
     private String password;
+    private List<Tweet> tweets;
     
     public User() {
     }
@@ -40,8 +43,16 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    public List<Tweet> getTweets() {
+		return tweets;
+	}
 
-    @Override
+	public void setTweets(List<Tweet> tweets) {
+		this.tweets = tweets;
+	}
+
+	@Override
     public String toString() {
         return "User{" + "username=" + username + ", password=" + password + '}';
     }

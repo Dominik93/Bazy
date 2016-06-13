@@ -10,7 +10,10 @@ xmlns:f="http://java.sun.com/jsf/core">
 		<title>Profile</title>
 	</h:head>
 	<h:outputStylesheet library="css" name="screen.css"/>
-	<h:body>				
+	<h:body>		
+		<f:metadata>
+			<f:event listener="#{userSession.logged()}" type="preRenderView"/>
+		</f:metadata>		
 		<h:form id="global">
 			<p:panelGrid columns="2" styleClass="topTable" >
 				<p:panelGrid columns="2">
@@ -29,6 +32,25 @@ xmlns:f="http://java.sun.com/jsf/core">
 					<p:link outcome="followers" value="#{userSession.dao.getNumberOfFollowers(profileView.user)}">
 						<f:param name="user" value="#{profileView.user.username}" />
 					</p:link>
+					<p:outputLabel value="Friends"/>
+					<p:link outcome="friends" value="#{userSession.dao.getNumberOfFriends(profileView.user)}">
+						<f:param name="user" value="#{profileView.user.username}" />
+					</p:link>
+					
+					<p:commandButton value="Show my friends tweets"  action="#{profileView.redirect('friendsTweets')}" />
+					<p:commandButton value="Make a friend" disabled="#{profileView.myProfile()}" action="#{profileView.becomeFriend()}"/>
+										
+					
+					<p:commandButton value="Show my followers tweets" action="#{profileView.redirect('followersTweets')}" />
+					<p:commandButton value="Follow" disabled="#{profileView.myProfile()}" action="#{profileView.followUser()}"/>
+										
+					<p:inputTextarea value="#{profileView.tweet.body}"/>
+					<p:commandButton value="Make a tweet" action="#{profileView.makeTweet()}"/>
+					
+					
+					<p:outputLabel value=""/>
+					<p:commandButton value="Logout" action="#{logout.logout()}"/>
+					
 				</p:panelGrid>
 				<p:dataTable var="tweet" value="#{tweetsView.tweets}">			 
 					<p:column headerText="ID" width="40">

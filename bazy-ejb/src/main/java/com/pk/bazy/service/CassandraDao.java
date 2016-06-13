@@ -136,7 +136,7 @@ public class CassandraDao implements Dao {
 	}
 
 	@Override
-	public List<Friend> getFreinds(User user) {
+	public List<Friend> getFriends(User user) {
 		List<Friend> friends = new ArrayList<>();
 		try {
 			Statement stmt = new SimpleStatement(
@@ -205,6 +205,42 @@ public class CassandraDao implements Dao {
 		}
 
 		return followed;
+	}
+
+	@Override
+	public List<Friend> getFriendsWithTweets(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Follower> getFollowersWithTweets(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getNumberOfFriends(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void insertFriend(User user, User user2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertFollower(User user, User user2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void insertTweet(Tweet tweet) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

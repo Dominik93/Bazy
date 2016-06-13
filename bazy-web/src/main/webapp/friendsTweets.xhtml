@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html 
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:p="http://primefaces.org/ui"
+xmlns:ui="http://java.sun.com/jsf/facelets"
+xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:head>
+		<title>Friends tweets</title>
+	</h:head>
+	
+	<h:outputStylesheet library="css" name="screen.css"/>
+	<h:body>	
+		<f:metadata>
+			<f:event listener="#{userSession.logged()}" type="preRenderView"/>
+		</f:metadata>		
+		<h:form id="global">
+			<p:dataTable var="friend" styleClass="topTable" value="#{friendsTweetsView.friends}">			 
+			    <p:column headerText="Username">
+			        <h:outputText value="#{friend.username}" />
+			    </p:column>
+			    <p:column headerText="Tweets">
+			    	<p:dataTable var="tweet" value="#{friend.tweets}">			 
+					    <p:column headerText="ID">
+					        <h:outputText value="#{tweet.id}" />
+					    </p:column>
+					    <p:column headerText="Body">
+					        <h:outputText value="#{tweet.body}" />
+					    </p:column>
+					</p:dataTable>
+			    </p:column>
+			</p:dataTable>
+		</h:form>
+	</h:body>
+</html>

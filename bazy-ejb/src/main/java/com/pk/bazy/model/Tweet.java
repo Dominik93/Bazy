@@ -12,11 +12,16 @@ public class Tweet {
 	private String username;
 	private String body;
 
+	public Tweet(String username) {
+		this.username = username;
+	}
+	
 	public Tweet(Integer id, String username, String body) {
 		this.id = id;
 		this.username = username;
 		this.body = body;
 	}
+	
 
 	public Integer getId() {
 		return id;

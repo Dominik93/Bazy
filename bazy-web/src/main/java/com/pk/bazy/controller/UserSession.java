@@ -1,7 +1,11 @@
 package com.pk.bazy.controller;
 
+import java.io.IOException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import com.pk.bazy.model.User;
 import com.pk.bazy.service.Dao;
@@ -29,6 +33,19 @@ public class UserSession {
 		this.user = user;
 	}
 	
+	public void logged() {
+		try {
+			if (dao == null) {
+			    ExternalContext ec =
+			    		FacesContext.getCurrentInstance().getExternalContext();
+				ec.redirect(ec.getRequestContextPath() + "/index.xhtml");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 }
