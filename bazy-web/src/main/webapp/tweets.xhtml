@@ -10,7 +10,10 @@ xmlns:f="http://java.sun.com/jsf/core">
 		<title>Tweets</title>
 	</h:head>
 	
-	<h:body>			
+	<h:body>	
+		<f:metadata>
+			<f:event listener="#{userSession.logged()}" type="preRenderView"/>
+		</f:metadata>		
 		<h:form id="global">
 		
 			<p:dataTable var="tweet" value="#{tweetsView.tweets}">			 

@@ -167,7 +167,7 @@ public class MysqlDao implements Dao {
 	}
 	
 	@Override
-	public List<Friend> getFreinds(User user) {
+	public List<Friend> getFriends(User user) {
 		List<Friend> friends = new ArrayList<>();
 	    try {
 	    	ResultSet rs = executeQuery("SELECT username, since FROM friends where username LIKE '" + user.getUsername() + "';", true);    
@@ -217,6 +217,81 @@ public class MysqlDao implements Dao {
 	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
 	    }
 	    return followed;
+	}
+
+	@Override
+	public int getNumberOfFreinds(User user) {
+		int followed = 0;
+	    try {
+	    	ResultSet rs = executeQuery("SELECT count(username) FROM friends WHERE friend LIKE '" + user.getUsername() + "';", true);    
+	        rs.next();
+	        followed = rs.getInt(1);
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followed;
+	}
+
+	@Override
+	public List<Friend> getFriendsWithTweets(User user) {
+		List<Friend> friends = new ArrayList<>();
+		List<Tweet> tweets;
+		Friend friend;
+	    try {
+	    	ResultSet rs = executeQuery("select friend, since, tweet_id, body  from friends "
+								+ " join tweets on friends.friend = tweets.username"
+								+ " where friends.username like '" + user.getUsername() + "';", true);    
+	        while(rs.next()) {
+	        	friend = new Friend(rs.getString("friend"), rs.getTimestamp("since"));
+    			tweets = new ArrayList<>();
+    			tweets.add(new Tweet(rs.getInt("tweet_id"), rs.getString("friend"), rs.getString("body")));
+	        	while (rs.next()) {
+	        		if (rs.getString("friend").equals(friend.getUsername())) {
+	        			tweets.add(new Tweet(rs.getInt("tweet_id"), rs.getString("friend"), rs.getString("body")));
+	        		} else {
+	        			friend.setTweets(tweets);
+	        			friends.add(friend);
+	        			rs.previous();
+	        			break;
+	        		}
+	        	}
+	        	
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return friends;
+	}
+
+	@Override
+	public List<Follower> getFollowersWithTweets(User user) {
+		List<Follower> followers = new ArrayList<>();
+		List<Tweet> tweets;
+		Follower friend;
+	    try {
+	    	ResultSet rs = executeQuery("select friend, since, tweet_id, body  from followers "
+								+ " join tweets on followers.follower = tweets.username"
+								+ " where followers.username like '" + user.getUsername() + "';", true);    
+	        while(rs.next()) {
+	        	friend = new Follower(rs.getString("friend"), rs.getTimestamp("since"));
+    			tweets = new ArrayList<>();
+    			tweets.add(new Tweet(rs.getInt("tweet_id"), rs.getString("friend"), rs.getString("body")));
+	        	while (rs.next()) {
+	        		if (rs.getString("friend").equals(friend.getUsername())) {
+	        			tweets.add(new Tweet(rs.getInt("tweet_id"), rs.getString("friend"), rs.getString("body")));
+	        		} else {
+	        			friend.setTweets(tweets);
+	        			followers.add(friend);
+	        			rs.previous();
+	        			break;
+	        		}
+	        	}
+	        	
+	        }
+	    } catch (SQLException ex) {
+	        Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+	    }
+	    return followers;
 	}
 
 	

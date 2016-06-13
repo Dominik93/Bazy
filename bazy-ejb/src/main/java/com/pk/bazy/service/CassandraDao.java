@@ -45,12 +45,6 @@ public class CassandraDao implements Dao {
 	}
 
 	@Override
-	public List<Friend> getFreinds(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getNumberOfTweets(User user) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -70,6 +64,30 @@ public class CassandraDao implements Dao {
 
 	@Override
 	public List<Follower> getFollowed(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Friend> getFriends(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getNumberOfFreinds(User user) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Friend> getFriendsWithTweets(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Follower> getFollowersWithTweets(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
