@@ -18,14 +18,15 @@ import com.pk.bazy.model.Tweet;
 import com.pk.bazy.model.User;
 
 public class CassandraDao implements Dao {
-	private static String contactPoint = "192.168.56.101";
+	private static String contactPoint1 = "192.168.56.101";
+	private static String contactPoint2 = "192.168.56.102";
 	private static String keyspace = "cassandra";
 
-	private Cluster cluster;// = Cluster.builder().addContactPoint(contactPoint).build();
-	private Session session;// = cluster.connect(keyspace);
+	private Cluster cluster;
+	private Session session;
 
 	public CassandraDao() {
-		cluster = Cluster.builder().addContactPoint(contactPoint).build();
+		cluster = Cluster.builder().addContactPoints(contactPoint1, contactPoint2).build();
 		session = cluster.connect(keyspace);
 	}
 
