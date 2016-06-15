@@ -126,7 +126,7 @@ public class CassandraDao implements Dao {
 
 			ResultSet results = session.execute(stmt);
 			for (Row row : results) {
-				followers.add(new Follower(row.getString("follower"), row.getTimestamp("since")));
+				followers.add(new Follower(row.getString("username"), row.getTimestamp("since")));
 			}
 		} catch (Exception ex) {
 			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
@@ -208,39 +208,71 @@ public class CassandraDao implements Dao {
 	}
 
 	@Override
+	public int getNumberOfFriends(User user) {
+		int followed = 0;
+		try {
+			Statement stmt = new SimpleStatement(
+					"SELECT count(username) FROM friends WHERE username = '" + user.getUsername() + "';");
+			ResultSet results = session.execute(stmt);
+			for (Row row : results) {
+				followed = (int) row.getLong(0);
+			}
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
+		return followed;
+	}
+
+	@Override
 	public List<Friend> getFriendsWithTweets(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Friend> friends = getFriends(user);
+
+		for (Friend friend : friends) {
+			friend.setTweets(getTweets(new User(friend.getUsername())));
+		}
+
+		return friends;
 	}
 
 	@Override
 	public List<Follower> getFollowersWithTweets(User user) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Follower> followers = getFollowers(user);
 
-	@Override
-	public int getNumberOfFriends(User user) {
-		// TODO Auto-generated method stub
-		return 0;
+		for (Follower follower : followers) {
+			follower.setTweets(getTweets(new User(follower.getUsername())));
+		}
+
+		return followers;
 	}
 
 	@Override
 	public void insertFriend(User user, User user2) {
-		// TODO Auto-generated method stub
-		
+		try {
+			session.execute("INSERT INTO friends (username, friend, since) VALUES ('" + user.getUsername() + "', '"
+					+ user2.getUsername() + "', dateof(now()))");
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
 	}
 
 	@Override
 	public void insertFollower(User user, User user2) {
-		// TODO Auto-generated method stub
-		
+		try {
+			session.execute("INSERT INTO followers (username, follower, since) VALUES ('" + user.getUsername() + "', '"
+					+ user2.getUsername() + "', dateof(now()))");
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
 	}
 
 	@Override
 	public void insertTweet(Tweet tweet) {
-		// TODO Auto-generated method stub
-		
+		try {
+			session.execute("INSERT INTO tweets (tweet_id, username, body) VALUES (uuid(), '" + tweet.getUsername()
+					+ "', '" + tweet.getBody() + "')");
+		} catch (Exception ex) {
+			Logger.getLogger(Dao.class.getName()).log(Level.INFO, null, ex);
+		}
 	}
 
 }
